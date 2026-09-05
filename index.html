@@ -171,6 +171,29 @@
     color:var(--steel);
     margin:0 0 14px;
   }
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin:0 0 14px;
+  }
+  .panel-head h2{ margin:0; }
+  .reset-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--steel);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .reset-btn.scope:hover, .reset-btn.scope:focus-visible{ border-color:var(--brass); color:var(--brass); }
+  .reset-btn.dot:hover, .reset-btn.dot:focus-visible{ border-color:var(--teal); color:var(--teal); }
 
   .field{ margin-bottom:18px; }
   .field:last-child{ margin-bottom:0; }
@@ -439,7 +462,10 @@
     </div>
 
     <div class="panel">
-      <h2>Écart mesuré</h2>
+      <div class="panel-head">
+        <h2>Écart mesuré</h2>
+        <button class="reset-btn scope" id="scope-reset" type="button">Réinitialiser</button>
+      </div>
       <div class="field">
         <div class="field-label"><span>Vertical</span><span class="accent-text">élévation</span></div>
         <div class="offset-row">
@@ -523,7 +549,10 @@
     </div>
 
     <div class="panel">
-      <h2>Écart mesuré</h2>
+      <div class="panel-head">
+        <h2>Écart mesuré</h2>
+        <button class="reset-btn dot" id="dot-reset" type="button">Réinitialiser</button>
+      </div>
       <div class="field">
         <div class="field-label"><span>Vertical</span><span class="accent-text">vis du dessus</span></div>
         <div class="offset-row">
@@ -606,10 +635,12 @@
     dot:   { moaPerClick: 1,    unitClick: "clic", refDistances: [5,10,15,20,25,50] }
   };
 
-  var state = {
+  var DEFAULTS = {
     scope: { distance: 100, v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} },
     dot:   { distance: 20,  v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} }
   };
+
+  var state = JSON.parse(JSON.stringify(DEFAULTS));
 
   function loadSaved(){
     try{
@@ -765,6 +796,16 @@
     });
   }
 
+  function resetKind(kind){
+    state[kind] = JSON.parse(JSON.stringify(DEFAULTS[kind]));
+    applyStateToInputs(kind);
+    render(kind);
+  }
+
+  function wireReset(kind){
+    document.getElementById(kind+"-reset").addEventListener("click", function(){ resetKind(kind); });
+  }
+
   function wireTabs(){
     var tabScope = document.getElementById("tab-scope");
     var tabDot = document.getElementById("tab-dot");
@@ -787,6 +828,7 @@
   wireDistance("scope"); wireDistance("dot");
   wireOffset("scope","v"); wireOffset("scope","h");
   wireOffset("dot","v"); wireOffset("dot","h");
+  wireReset("scope"); wireReset("dot");
   wireTabs();
   buildRefTable("scope"); buildRefTable("dot");
   render("scope"); render("dot");
