@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clics Optiques</title>
+<meta name="description" content="Calcule le nombre de clics a appliquer sur la lunette 6-24x50 et le point rouge FastFire 3, a partir de l'ecart mesure au stand. Fonctionne hors-ligne une fois charge.">
+<meta name="theme-color" content="#1b2027">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="512x512" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Clics Optiques">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --ink:#1b2027;
+    --steel:#5b6472;
+    --paper:#f3f1ec;
+    --surface:#ffffff;
+    --line:#dcd6c9;
+    --brass:#a9752f;
+    --brass-ink:#5c4419;
+    --brass-soft:#f2e6d0;
+    --teal:#3f6b64;
+    --teal-ink:#22423c;
+    --teal-soft:#e1ece9;
+    --danger:#a4402f;
+    --shadow: 0 1px 2px rgba(27,32,39,.06), 0 6px 20px -8px rgba(27,32,39,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#eae6db;
+      --steel:#a2a9b3;
+      --paper:#14171b;
+      --surface:#1c2025;
+      --line:#333a42;
+      --brass:#d6a355;
+      --brass-ink:#f2e0bd;
+      --brass-soft:#332a19;
+      --teal:#7bb3a8;
+      --teal-ink:#d3ece6;
+      --teal-soft:#1a2b28;
+      --danger:#e08a76;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -10px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#eae6db;
+    --steel:#a2a9b3;
+    --paper:#14171b;
+    --surface:#1c2025;
+    --line:#333a42;
+    --brass:#d6a355;
+    --brass-ink:#f2e0bd;
+    --brass-soft:#332a19;
+    --teal:#7bb3a8;
+    --teal-ink:#d3ece6;
+    --teal-soft:#1a2b28;
+    --danger:#e08a76;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -10px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, color-mix(in srgb, var(--line) 45%, transparent) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, color-mix(in srgb, var(--line) 45%, transparent) 28px),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Work Sans", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:28px 18px 64px;
+  }
+  header.page{
+    margin-bottom:22px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:12.5px;
+    letter-spacing:.06em;
+    color:var(--steel);
+    text-transform:uppercase;
+    display:flex;
+    gap:8px;
+    align-items:baseline;
+    flex-wrap:wrap;
+  }
+  .eyebrow .dot{opacity:.5;}
+  h1{
+    font-family:"Barlow Condensed", ui-sans-serif, sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 8vw, 40px);
+    letter-spacing:.01em;
+    margin:4px 0 4px;
+    text-wrap:balance;
+  }
+  .sub{
+    color:var(--steel);
+    font-size:14.5px;
+    max-width:52ch;
+    line-height:1.5;
+  }
+
+  /* tabs */
+  .tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin:20px 0 16px;
+  }
+  .tab{
+    font-family:"Barlow Condensed", sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:.01em;
+    text-align:left;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--steel);
+    cursor:pointer;
+    line-height:1.25;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .tab small{
+    display:block;
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:500;
+    font-size:11.5px;
+    letter-spacing:.02em;
+    color:inherit;
+    opacity:.75;
+    margin-top:2px;
+    text-transform:none;
+  }
+  .tab:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .tab[aria-selected="true"].scope{
+    border-color:var(--brass);
+    background:var(--brass-soft);
+    color:var(--brass-ink);
+  }
+  .tab[aria-selected="true"].dot{
+    border-color:var(--teal);
+    background:var(--teal-soft);
+    color:var(--teal-ink);
+  }
+
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:20px;
+    margin-bottom:16px;
+  }
+  .panel h2{
+    font-family:"Barlow Condensed", sans-serif;
+    font-weight:600;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:.07em;
+    color:var(--steel);
+    margin:0 0 14px;
+  }
+
+  .field{ margin-bottom:18px; }
+  .field:last-child{ margin-bottom:0; }
+  .field-label{
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink);
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+  }
+  .field-label .accent-text{ font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--steel); }
+
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:8px;
+  }
+  .chip{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    padding:6px 11px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--steel);
+    cursor:pointer;
+  }
+  .chip[aria-pressed="true"].scope{ background:var(--brass); border-color:var(--brass); color:#fff; }
+  .chip[aria-pressed="true"].dot{ background:var(--teal); border-color:var(--teal); color:#fff; }
+
+  .distance-row{ display:flex; align-items:center; gap:10px; }
+  .num-input{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:17px;
+    font-variant-numeric:tabular-nums;
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .num-input:focus-visible{ outline:2px solid var(--brass); outline-offset:1px; }
+  .unit-suffix{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    color:var(--steel);
+    white-space:nowrap;
+  }
+
+  .offset-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+  }
+  .seg{
+    display:flex;
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .seg button{
+    font-family:"Work Sans", sans-serif;
+    font-size:13px;
+    font-weight:500;
+    padding:9px 12px;
+    border:none;
+    background:var(--paper);
+    color:var(--steel);
+    cursor:pointer;
+    border-right:1px solid var(--line);
+    white-space:nowrap;
+  }
+  .seg button:last-child{ border-right:none; }
+  .seg button[aria-pressed="true"].scope{ background:var(--brass); color:#fff; }
+  .seg button[aria-pressed="true"].dot{ background:var(--teal); color:#fff; }
+
+  .unit-toggle{ display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .unit-toggle button{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    padding:9px 10px;
+    border:none;
+    background:var(--paper);
+    color:var(--steel);
+    cursor:pointer;
+  }
+  .unit-toggle button:first-child{ border-right:1px solid var(--line); }
+  .unit-toggle button[aria-pressed="true"].scope{ background:var(--brass); color:#fff; }
+  .unit-toggle button[aria-pressed="true"].dot{ background:var(--teal); color:#fff; }
+
+  /* result */
+  .result{
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:16px;
+    color:#fff;
+    box-shadow:var(--shadow);
+  }
+  .result.scope{ background:linear-gradient(155deg, var(--brass-ink), #3c2c10 78%); }
+  .result.dot{ background:linear-gradient(155deg, var(--teal-ink), #12211d 78%); }
+  .result-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .readout{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:10px;
+    padding:14px 12px;
+  }
+  .readout .axis{
+    font-family:"Barlow Condensed", sans-serif;
+    font-size:12.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    opacity:.75;
+    margin-bottom:6px;
+  }
+  .readout .value{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .readout .arrow{ font-size:24px; line-height:1; }
+  .readout .clicks{
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:600;
+    font-size:28px;
+    font-variant-numeric:tabular-nums;
+  }
+  .readout .dir{
+    font-family:"Barlow Condensed", sans-serif;
+    font-size:15px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .readout .exact{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    opacity:.65;
+    margin-top:6px;
+  }
+
+  details{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  details summary{
+    font-size:13.5px;
+    font-weight:500;
+    padding:14px 18px;
+    cursor:pointer;
+    color:var(--steel);
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  details summary::-webkit-details-marker{ display:none; }
+  details summary::after{
+    content:"+";
+    font-family:"IBM Plex Mono", monospace;
+    font-size:16px;
+  }
+  details[open] summary::after{ content:"–"; }
+  .details-body{
+    padding:0 18px 18px;
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink);
+  }
+  .details-body code{
+    font-family:"IBM Plex Mono", monospace;
+    background:var(--paper);
+    padding:1px 5px;
+    border-radius:4px;
+    font-size:12.5px;
+  }
+
+  table.ref{
+    width:100%;
+    border-collapse:collapse;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    margin-top:8px;
+  }
+  table.ref th, table.ref td{
+    text-align:right;
+    padding:6px 8px;
+    border-bottom:1px solid var(--line);
+    font-variant-numeric:tabular-nums;
+  }
+  table.ref th:first-child, table.ref td:first-child{ text-align:left; }
+  table.ref thead th{ color:var(--steel); font-weight:500; }
+
+  .overflow-x{ overflow-x:auto; }
+
+  .note{
+    font-size:12.5px;
+    color:var(--steel);
+    line-height:1.6;
+    padding:14px 18px;
+  }
+
+  footer.page{
+    text-align:center;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    color:var(--steel);
+    opacity:.7;
+    margin-top:28px;
+  }
+
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <div class="eyebrow">
+      <span>APT Obernai</span><span class="dot">·</span>
+      <span>Ruger Precision Rimfire .22 LR</span><span class="dot">·</span>
+      <span>jusqu'à 300 m</span>
+    </div>
+    <h1>Réglage des optiques</h1>
+    <p class="sub">Entrez l'écart mesuré entre point visé et point d'impact : l'outil donne le nombre de clics à appliquer, et dans quel sens, sur chaque tourelle.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab scope" role="tab" id="tab-scope" aria-selected="true" data-target="scope">
+      Lunette 6-24×50
+      <small>AIR FORCE Optics · 1/4 MOA / clic</small>
+    </button>
+    <button class="tab dot" role="tab" id="tab-dot" aria-selected="false" data-target="dot">
+      Point rouge
+      <small>Burris FastFire 3 · 1 MOA / clic</small>
+    </button>
+  </div>
+
+  <!-- SCOPE PANEL -->
+  <section id="panel-scope" data-panel="scope">
+    <div class="panel">
+      <h2>Distance de tir</h2>
+      <div class="field">
+        <div class="chips" data-chips="scope-distance">
+          <button class="chip scope" data-value="50">50 m</button>
+          <button class="chip scope" data-value="100" aria-pressed="true">100 m</button>
+          <button class="chip scope" data-value="200">200 m</button>
+          <button class="chip scope" data-value="300">300 m</button>
+        </div>
+        <div class="distance-row">
+          <input class="num-input" type="number" inputmode="decimal" id="scope-distance" value="100" min="5" max="800" step="1">
+          <span class="unit-suffix">mètres</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Écart mesuré</h2>
+      <div class="field">
+        <div class="field-label"><span>Vertical</span><span class="accent-text">élévation</span></div>
+        <div class="offset-row">
+          <input class="num-input" type="number" inputmode="decimal" id="scope-v-value" value="0" min="0" step="0.5">
+          <div class="unit-toggle" data-unit-group="scope-v">
+            <button class="scope" data-value="mm" aria-pressed="true">mm</button>
+            <button class="scope" data-value="cm" aria-pressed="false">cm</button>
+          </div>
+        </div>
+        <div class="seg" data-seg-group="scope-v-dir" style="margin-top:8px;">
+          <button class="scope" data-value="bas" aria-pressed="true">Impact trop BAS</button>
+          <button class="scope" data-value="haut" aria-pressed="false">Impact trop HAUT</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Horizontal</span><span class="accent-text">dérive</span></div>
+        <div class="offset-row">
+          <input class="num-input" type="number" inputmode="decimal" id="scope-h-value" value="0" min="0" step="0.5">
+          <div class="unit-toggle" data-unit-group="scope-h">
+            <button class="scope" data-value="mm" aria-pressed="true">mm</button>
+            <button class="scope" data-value="cm" aria-pressed="false">cm</button>
+          </div>
+        </div>
+        <div class="seg" data-seg-group="scope-h-dir" style="margin-top:8px;">
+          <button class="scope" data-value="gauche" aria-pressed="true">Impact à GAUCHE</button>
+          <button class="scope" data-value="droite" aria-pressed="false">Impact à DROITE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="result scope">
+      <div class="result-grid">
+        <div class="readout">
+          <div class="axis">Élévation</div>
+          <div class="value"><span class="arrow" id="scope-v-arrow">–</span><span class="clicks" id="scope-v-clicks">0</span><span class="dir" id="scope-v-dir-label">clic</span></div>
+          <div class="exact" id="scope-v-exact">écart nul</div>
+        </div>
+        <div class="readout">
+          <div class="axis">Dérive</div>
+          <div class="value"><span class="arrow" id="scope-h-arrow">–</span><span class="clicks" id="scope-h-clicks">0</span><span class="dir" id="scope-h-dir-label">clic</span></div>
+          <div class="exact" id="scope-h-exact">écart nul</div>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>Détail du calcul</summary>
+      <div class="details-body" id="scope-detail">—</div>
+    </details>
+
+    <details>
+      <summary>Table de référence — mm par clic (1/4 MOA)</summary>
+      <div class="details-body">
+        <div class="overflow-x">
+          <table class="ref">
+            <thead><tr><th>Distance</th><th>mm / clic</th><th>mm / MOA</th></tr></thead>
+            <tbody id="scope-ref-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- DOT PANEL -->
+  <section id="panel-dot" data-panel="dot" hidden>
+    <div class="panel">
+      <h2>Distance de tir</h2>
+      <div class="field">
+        <div class="chips" data-chips="dot-distance">
+          <button class="chip dot" data-value="10">10 m</button>
+          <button class="chip dot" data-value="15">15 m</button>
+          <button class="chip dot" data-value="20" aria-pressed="true">20 m</button>
+          <button class="chip dot" data-value="25">25 m</button>
+          <button class="chip dot" data-value="50">50 m</button>
+        </div>
+        <div class="distance-row">
+          <input class="num-input" type="number" inputmode="decimal" id="dot-distance" value="20" min="3" max="150" step="1">
+          <span class="unit-suffix">mètres</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Écart mesuré</h2>
+      <div class="field">
+        <div class="field-label"><span>Vertical</span><span class="accent-text">vis du dessus</span></div>
+        <div class="offset-row">
+          <input class="num-input" type="number" inputmode="decimal" id="dot-v-value" value="0" min="0" step="0.5">
+          <div class="unit-toggle" data-unit-group="dot-v">
+            <button class="dot" data-value="mm" aria-pressed="true">mm</button>
+            <button class="dot" data-value="cm" aria-pressed="false">cm</button>
+          </div>
+        </div>
+        <div class="seg" data-seg-group="dot-v-dir" style="margin-top:8px;">
+          <button class="dot" data-value="bas" aria-pressed="true">Impact trop BAS</button>
+          <button class="dot" data-value="haut" aria-pressed="false">Impact trop HAUT</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label"><span>Horizontal</span><span class="accent-text">vis du côté</span></div>
+        <div class="offset-row">
+          <input class="num-input" type="number" inputmode="decimal" id="dot-h-value" value="0" min="0" step="0.5">
+          <div class="unit-toggle" data-unit-group="dot-h">
+            <button class="dot" data-value="mm" aria-pressed="true">mm</button>
+            <button class="dot" data-value="cm" aria-pressed="false">cm</button>
+          </div>
+        </div>
+        <div class="seg" data-seg-group="dot-h-dir" style="margin-top:8px;">
+          <button class="dot" data-value="gauche" aria-pressed="true">Impact à GAUCHE</button>
+          <button class="dot" data-value="droite" aria-pressed="false">Impact à DROITE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="result dot">
+      <div class="result-grid">
+        <div class="readout">
+          <div class="axis">Élévation</div>
+          <div class="value"><span class="arrow" id="dot-v-arrow">–</span><span class="clicks" id="dot-v-clicks">0</span><span class="dir" id="dot-v-dir-label">clic</span></div>
+          <div class="exact" id="dot-v-exact">écart nul</div>
+        </div>
+        <div class="readout">
+          <div class="axis">Dérive</div>
+          <div class="value"><span class="arrow" id="dot-h-arrow">–</span><span class="clicks" id="dot-h-clicks">0</span><span class="dir" id="dot-h-dir-label">clic</span></div>
+          <div class="exact" id="dot-h-exact">écart nul</div>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>Détail du calcul</summary>
+      <div class="details-body" id="dot-detail">—</div>
+    </details>
+
+    <details>
+      <summary>Table de référence — mm par clic (1 MOA)</summary>
+      <div class="details-body">
+        <div class="overflow-x">
+          <table class="ref">
+            <thead><tr><th>Distance</th><th>mm / clic</th></tr></thead>
+            <tbody id="dot-ref-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <details>
+    <summary>Rappels &amp; limites</summary>
+    <div class="note">
+      1 MOA ≈ 2,908 cm à 100 m (≈ 1,047 pouce à 100 yards). Le réglage tourelle se lit sur les flèches gravées : tournez dans le sens indiqué pour ramener l'impact sur le point visé — vérifiez ce sens sur vos tourelles, la convention peut varier d'un fabricant à l'autre. Au-delà de 300 m ou avec un fort vent, la chute de balle et la dérive demandent une correction de visée (hold-over) en plus de ce réglage de base, non calculée ici.
+    </div>
+  </details>
+
+  <footer class="page">Calculateur de clics — tir de précision</footer>
+</div>
+
+<script>
+(function(){
+  var MOA_MM_PER_M = 1000 * Math.PI / (180*60); // mm subtendu par 1 MOA et par mètre de distance
+
+  var CONFIGS = {
+    scope: { moaPerClick: 0.25, unitClick: "clic", refDistances: [25,50,100,150,200,300] },
+    dot:   { moaPerClick: 1,    unitClick: "clic", refDistances: [5,10,15,20,25,50] }
+  };
+
+  var state = {
+    scope: { distance: 100, v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} },
+    dot:   { distance: 20,  v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} }
+  };
+
+  function loadSaved(){
+    try{
+      var raw = localStorage.getItem("clics-optiques-state");
+      if(raw){
+        var saved = JSON.parse(raw);
+        if(saved && saved.scope && saved.dot){ state = saved; }
+      }
+    }catch(e){ /* stockage indisponible, on continue avec les valeurs par défaut */ }
+  }
+  function saveState(){
+    try{ localStorage.setItem("clics-optiques-state", JSON.stringify(state)); }catch(e){}
+  }
+
+  function toMm(value, unit){ return unit === "cm" ? value*10 : value; }
+
+  function computeAxis(kind, distanceM, offsetMm, moaPerClick){
+    var mmPerMoa = MOA_MM_PER_M * distanceM;
+    var errorMoa = mmPerMoa > 0 ? offsetMm / mmPerMoa : 0;
+    var clicksExact = errorMoa / moaPerClick;
+    return {
+      offsetMm: offsetMm,
+      mmPerMoa: mmPerMoa,
+      errorMoa: errorMoa,
+      clicksExact: clicksExact,
+      clicksRounded: Math.round(clicksExact)
+    };
+  }
+
+  function setReadout(kind, axisKey, calc, dirWhenPositive, dirWhenZero){
+    var arrowEl = document.getElementById(kind+"-"+axisKey+"-arrow");
+    var clicksEl = document.getElementById(kind+"-"+axisKey+"-clicks");
+    var dirEl = document.getElementById(kind+"-"+axisKey+"-dir-label");
+    var exactEl = document.getElementById(kind+"-"+axisKey+"-exact");
+    var n = calc.clicksRounded;
+    var unitWord = CONFIGS[kind].unitClick + (Math.abs(n) === 1 ? "" : "s");
+
+    if(calc.offsetMm === 0 || n === 0){
+      arrowEl.textContent = "–";
+      clicksEl.textContent = "0";
+      dirEl.textContent = "réglé";
+      exactEl.textContent = "écart nul ou inférieur à 1 clic";
+      return;
+    }
+    var info = dirWhenPositive; // {label, arrow}
+    arrowEl.textContent = info.arrow;
+    clicksEl.textContent = Math.abs(n);
+    dirEl.textContent = info.label + " · " + unitWord;
+    exactEl.textContent = "valeur exacte : " + calc.clicksExact.toFixed(2) + " clic(s) — " + calc.errorMoa.toFixed(3) + " MOA";
+  }
+
+  function render(kind){
+    var s = state[kind];
+    var cfg = CONFIGS[kind];
+
+    var vOffsetMm = toMm(s.v.value, s.v.unit);
+    var hOffsetMm = toMm(s.h.value, s.h.unit);
+
+    var vCalc = computeAxis(kind, s.distance, vOffsetMm, cfg.moaPerClick);
+    var hCalc = computeAxis(kind, s.distance, hOffsetMm, cfg.moaPerClick);
+
+    var vDir = s.v.dir === "bas" ? {label:"HAUT", arrow:"↑"} : {label:"BAS", arrow:"↓"};
+    var hDir = s.h.dir === "droite" ? {label:"GAUCHE", arrow:"←"} : {label:"DROITE", arrow:"→"};
+
+    setReadout(kind, "v", vCalc, vDir);
+    setReadout(kind, "h", hCalc, hDir);
+
+    var mmPerMoaAtDist = MOA_MM_PER_M * s.distance;
+    var detailEl = document.getElementById(kind+"-detail");
+    detailEl.innerHTML =
+      "À " + s.distance + " m, 1 MOA = <code>" + mmPerMoaAtDist.toFixed(2) + " mm</code> (" + (mmPerMoaAtDist/25.4).toFixed(3) + " po) — 1 " + cfg.unitClick + " = <code>" + cfg.moaPerClick + " MOA</code> = <code>" + (mmPerMoaAtDist*cfg.moaPerClick).toFixed(2) + " mm</code>.<br>" +
+      "Vertical : écart " + vOffsetMm.toFixed(1) + " mm → " + vCalc.errorMoa.toFixed(3) + " MOA → " + vCalc.clicksExact.toFixed(2) + " clic(s), arrondi à " + Math.abs(vCalc.clicksRounded) + ".<br>" +
+      "Horizontal : écart " + hOffsetMm.toFixed(1) + " mm → " + hCalc.errorMoa.toFixed(3) + " MOA → " + hCalc.clicksExact.toFixed(2) + " clic(s), arrondi à " + Math.abs(hCalc.clicksRounded) + ".";
+
+    saveState();
+  }
+
+  function buildRefTable(kind){
+    var cfg = CONFIGS[kind];
+    var body = document.getElementById(kind+"-ref-table");
+    var rows = cfg.refDistances.map(function(d){
+      var mmPerMoa = MOA_MM_PER_M * d;
+      var mmPerClick = mmPerMoa * cfg.moaPerClick;
+      if(kind === "scope"){
+        return "<tr><td>"+d+" m</td><td>"+mmPerClick.toFixed(2)+"</td><td>"+mmPerMoa.toFixed(2)+"</td></tr>";
+      }
+      return "<tr><td>"+d+" m</td><td>"+mmPerClick.toFixed(2)+"</td></tr>";
+    });
+    body.innerHTML = rows.join("");
+  }
+
+  function wireDistance(kind){
+    var input = document.getElementById(kind+"-distance");
+    var chips = document.querySelectorAll('[data-chips="'+kind+'-distance"] .chip');
+    input.addEventListener("input", function(){
+      var v = parseFloat(input.value);
+      state[kind].distance = isNaN(v) ? 0 : v;
+      chips.forEach(function(c){ c.setAttribute("aria-pressed", c.dataset.value === input.value ? "true" : "false"); });
+      render(kind);
+    });
+    chips.forEach(function(chip){
+      chip.addEventListener("click", function(){
+        input.value = chip.dataset.value;
+        state[kind].distance = parseFloat(chip.dataset.value);
+        chips.forEach(function(c){ c.setAttribute("aria-pressed", c===chip ? "true" : "false"); });
+        render(kind);
+      });
+    });
+  }
+
+  function wireOffset(kind, axisKey){
+    var valueInput = document.getElementById(kind+"-"+axisKey+"-value");
+    var unitButtons = document.querySelectorAll('[data-unit-group="'+kind+"-"+axisKey+'"] button');
+    var dirGroup = axisKey === "v" ? kind+"-v-dir" : kind+"-h-dir";
+    var dirButtons = document.querySelectorAll('[data-seg-group="'+dirGroup+'"] button');
+
+    valueInput.addEventListener("input", function(){
+      var v = parseFloat(valueInput.value);
+      state[kind][axisKey].value = isNaN(v) ? 0 : Math.abs(v);
+      render(kind);
+    });
+    unitButtons.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        state[kind][axisKey].unit = btn.dataset.value;
+        unitButtons.forEach(function(b){ b.setAttribute("aria-pressed", b===btn ? "true" : "false"); });
+        render(kind);
+      });
+    });
+    dirButtons.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        state[kind][axisKey].dir = btn.dataset.value;
+        dirButtons.forEach(function(b){ b.setAttribute("aria-pressed", b===btn ? "true" : "false"); });
+        render(kind);
+      });
+    });
+  }
+
+  function applyStateToInputs(kind){
+    var s = state[kind];
+    document.getElementById(kind+"-distance").value = s.distance;
+    document.querySelectorAll('[data-chips="'+kind+'-distance"] .chip').forEach(function(c){
+      c.setAttribute("aria-pressed", parseFloat(c.dataset.value) === s.distance ? "true" : "false");
+    });
+    ["v","h"].forEach(function(axisKey){
+      document.getElementById(kind+"-"+axisKey+"-value").value = s[axisKey].value;
+      document.querySelectorAll('[data-unit-group="'+kind+"-"+axisKey+'"] button').forEach(function(b){
+        b.setAttribute("aria-pressed", b.dataset.value === s[axisKey].unit ? "true" : "false");
+      });
+      var dirGroup = axisKey === "v" ? kind+"-v-dir" : kind+"-h-dir";
+      document.querySelectorAll('[data-seg-group="'+dirGroup+'"] button').forEach(function(b){
+        b.setAttribute("aria-pressed", b.dataset.value === s[axisKey].dir ? "true" : "false");
+      });
+    });
+  }
+
+  function wireTabs(){
+    var tabScope = document.getElementById("tab-scope");
+    var tabDot = document.getElementById("tab-dot");
+    var panelScope = document.getElementById("panel-scope");
+    var panelDot = document.getElementById("panel-dot");
+    function activate(which){
+      var scopeActive = which === "scope";
+      tabScope.setAttribute("aria-selected", scopeActive ? "true":"false");
+      tabDot.setAttribute("aria-selected", scopeActive ? "false":"true");
+      panelScope.hidden = !scopeActive;
+      panelDot.hidden = scopeActive;
+    }
+    tabScope.addEventListener("click", function(){ activate("scope"); });
+    tabDot.addEventListener("click", function(){ activate("dot"); });
+  }
+
+  loadSaved();
+  applyStateToInputs("scope");
+  applyStateToInputs("dot");
+  wireDistance("scope"); wireDistance("dot");
+  wireOffset("scope","v"); wireOffset("scope","h");
+  wireOffset("dot","v"); wireOffset("dot","h");
+  wireTabs();
+  buildRefTable("scope"); buildRefTable("dot");
+  render("scope"); render("dot");
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      // Vérifie une mise à jour à chaque chargement (sans bloquer l'affichage)
+      reg.update();
+    }).catch(function (err) {
+      console.warn('Service worker non installé :', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
