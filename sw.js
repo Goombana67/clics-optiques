@@ -1,6 +1,6 @@
 // Service worker "Clics Optiques" — usage hors-ligne au stand.
 // Incrémenter CACHE_VERSION à chaque mise à jour du contenu.
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const CACHE_NAME = "clics-optiques-" + CACHE_VERSION;
 
 const APP_SHELL = [
