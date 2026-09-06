@@ -317,7 +317,7 @@
     text-transform:uppercase;
     cursor:pointer;
   }
-  .add-btn:focus-visible{ outline:2px solid var(--tgt); outline-offset:2px; }
+  .add-btn:focus-visible{ outline:2px solid var(--tgt); outline-offset:2px; } .add-btn:disabled{ opacity:.42; cursor:default; }
 
   .shot-list{
     list-style:none;
@@ -1435,12 +1435,12 @@
         <div class="chips" data-chips="dot-distance">
           <button class="chip dot" data-value="10">10 m</button>
           <button class="chip dot" data-value="15">15 m</button>
-          <button class="chip dot" data-value="20" aria-pressed="true">20 m</button>
-          <button class="chip dot" data-value="25">25 m</button>
+          <button class="chip dot" data-value="20">20 m</button>
+          <button class="chip dot" data-value="25" aria-pressed="true">25 m</button>
           <button class="chip dot" data-value="50">50 m</button>
         </div>
         <div class="distance-row">
-          <input class="num-input" type="number" inputmode="decimal" id="dot-distance" value="20" min="3" max="150" step="1">
+          <input class="num-input" type="number" inputmode="decimal" id="dot-distance" value="25" min="3" max="150" step="1">
           <span class="unit-suffix">mètres</span>
         </div>
         <div class="recall panel-dot-recall" id="dot-recall" hidden></div>
@@ -1707,7 +1707,7 @@
 
   var DEFAULTS = {
     scope: { distance: 50,  scale: 100, shots: [], zeroRef: 50, book: [], current: null, flip: false, zeroDone: false, v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} },
-    dot:   { distance: 20,  scale: 100, shots: [], zeroRef: 25, book: [], current: null, flip: false, zeroDone: false, v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} }
+    dot:   { distance: 25,  scale: 100, shots: [], zeroRef: 25, book: [], current: null, flip: false, zeroDone: false, v:{value:0, unit:"mm", dir:"bas"}, h:{value:0, unit:"mm", dir:"gauche"} }
   };
 
   var LABELS = { scope: "Lunette", dot: "Point rouge" };
@@ -2003,7 +2003,7 @@
     var curNote = document.getElementById(kind+"-book-cur-note");
     curNote.textContent = pos.d
       ? "Inclut les " + clicksTxt(pos.e, pos.w) + " déjà appliqués pour le réglage " + pos.d + " m : le carnet se compte toujours depuis le zéro."
-      : "Vos tourelles sont au zéro de référence, la correction calculée est enregistrée telle quelle.";
+      : "Vos tourelles sont au zéro de référence, la correction calculée est enregistrée telle quelle."; if(!(s.zeroDone || s.book.length)){ curNote.textContent = "Votre zéro de référence (" + s.zeroRef + " m) n'est pas encore fait : rien à enregistrer ici pour l'instant."; }
 
     // Le même enregistrement, mais à portée de pouce sous le résultat : c'est là que
     // l'utilisateur se trouve quand il vient de tourner ses clics.
@@ -2031,7 +2031,7 @@
         // Pas encore de zéro : enregistrer une correction n'aurait aucun sens,
         // puisqu'il n'y a rien depuis quoi la compter.
         label = "Enregistrer ce réglage · " + lc.d + " m"; disabled = true;
-        msg = "Vous n'avez pas encore de zéro à <b>" + s.zeroRef + " m</b>. Ici, contentez-vous de tourner les clics pour vous centrer : l'enregistrement viendra une fois le zéro fait.";
+        msg = "Vous tirez à <b>" + lc.d + " m</b>, mais votre zéro de référence est réglé sur <b>" + s.zeroRef + " m</b> — et ce zéro n'est pas encore fait. Ici, tournez simplement les clics pour vous centrer : l'enregistrement viendra une fois le zéro fait.";
         zHidden = false;
       }else if(empty){
         label = "Enregistrer ce réglage · " + lc.d + " m"; disabled = true;
